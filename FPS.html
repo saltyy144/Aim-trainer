@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini FPS Shooter</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #111;
+      color: white;
+      font-family: sans-serif;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      cursor: crosshair;
+    }
+
+    .target {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    #scoreBoard {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="gameArea">
+  <div id="scoreBoard">Score: 0</div>
+  
+</div>
+
+<script>
+  const gameArea = document.getElementById('gameArea');
+  const scoreBoard = document.getElementById('scoreBoard');
+  let score = 0;
+
+  // Create target at random position
+  function spawnTarget() {
+    const target = document.createElement('div');
+    target.classList.add('target');
+    target.style.top = Math.random() * (window.innerHeight - 60) + "px";
+    target.style.left = Math.random() * (window.innerWidth - 60) + "px";
+
+    target.onclick = (e) => {
+      e.stopPropagation(); // prevent body click
+      gameArea.removeChild(target);
+      score++;
+      scoreBoard.textContent = "Score: " + score;
+      spawnTarget(); // respawn]
+    };
+    
+
+    gameArea.appendChild(target);
+  }
+
+  // Missed shot
+  gameArea.onclick = () => {
+    score--;
+    scoreBoard.textContent = "Score: " + score;
+  };
+  
+
+  // Start the game
+  spawnTarget();
+</script>
+
+</body>
+</html>
